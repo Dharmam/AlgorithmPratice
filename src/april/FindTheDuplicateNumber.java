@@ -27,10 +27,42 @@ public class FindTheDuplicateNumber {
 	public static void main(String[] args) {
 		System.out.println(findDuplicate(new int[] { 1, 3, 4, 2, 2 }));
 		System.out.println(findDuplicate(new int[] { 3, 1, 3, 4, 2 }));
+		String s = "Hello";
+		String st = "";
+		 for(char c : s.toCharArray()){
+			 int t = c;
+	            if((65 <= c) && (c <= 90)){
+	                t = c+32;
+	            }
+	                st+= Character.toString ((char) t);	           
+	        }
+		System.out.println(st);
 
 	}
-
+	
 	static int findDuplicate(int[] nums) {
+		if(nums.length > 1) {
+			int fast = nums[nums[0]] ;
+			int slow = nums[0] ;
+			
+			while(fast != slow) {
+				slow = nums[slow];
+				fast = nums[nums[fast]];
+			}
+			
+		    fast = 0;
+			while (fast != slow)
+			{
+				fast = nums[fast];
+				slow = nums[slow];
+			}
+			
+			return slow;
+		}
+		return -1;
+	}
+
+	static int findDuplicate1(int[] nums) {
 		Arrays.sort(nums);
 		Integer c = nums[0];
 		for (int i = 1; i < nums.length; i++) {
