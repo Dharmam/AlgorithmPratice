@@ -12,6 +12,7 @@ public class NumberOfIslands {
 
 	static int numIslands(char[][] grid) {
 
+		if(grid.length==0)return 0;
 		boolean visited[][] = new boolean[grid.length][grid[0].length];
 
 		int count = 0;
