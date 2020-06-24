@@ -1,0 +1,50 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class RestClient {
+
+	public static void main(String[] args) {
+		String authHeader = "Intuit_IAM_Authentication intuit_token_type=IAM-Offline-Ticket,intuit_appid=Intuit.datagovern.compliance.qbopayrolldatamanager,intuit_app_secret=preprdmhCvO12PuMbMeDmu0Cr8OQ7oRVHHTx1x6l,intuit_token=eyJraWQiOiJJbnR1aXQuY3RvLmlhbS5oYXRzLnByZXByZC4wOTIyMjAxMyIsImFsZyI6IlJTMjU2In0.eyJhdWQiOiIyMTY1MTIzMTEzMTc3MzYxODA5IiwiaXNzIjoiSW50dWl0LmN0by5pYW0uaGF0cyIsIngucndzIjoxMjA5NjAwMDAwLCJ4LmFleHAiOjE1ODEzNzM1NTk0NTQsIngubHJ0IjoxNTgxMzcyOTU5NDYwLCJ4LmF0Y2siOiJmd3pIUHZhSldNaU80NURoeWJ3QXJHaEd3TmYzQmpOZVJTOXpuRG1sM05pdTVpbVhza044bG85d2dKemY3R01Ua2d0dkZ5ZEJEQnZMSDhZY0t1d1pyWUdPdGJPcjk4eWtqSVwvb1NSSnNJajU1Qk55WHlqeWh6SFdEZ1k1ZkVldUwrcXMxdFBVc0M3RWdrT2pHdXdXZ3UzZVdvYjNBVEltZm9RdUNwamhHUjczc2dTOTNqakp2bVpROTdscWpzUk54aXh4dGxWSXRZck1hZlBDMHE0eFo1ejJLbjJST3RUZkV0RDU5QjhHTHRPaVZFZW5uR1lSMjlnaEI3WmtDc0dSbHc1OXo4aSsyc1RmRXFWVVlEWlwvUHRcL0VLblNZazFHTEhTcEkxbW5aWUJ2a3hPWm82K0VlaFVrWlFhZlc1bDd1M055MVdoU3c4MFpLR3ZHU2FCNjgwcmRUSnoyejhmdkdFTlRnTVduY2V6TnJDcVhEMFwvclBFeDBGNkE5d2tHZm1ONUtJNFl2RGpMT2I3d3BxUUVJOHUxZE9CZ0lmODhjckl0K3M0XC9UZWVqdmVsZ0k1dlZET2k5YWN5bkNzOW1KVlJwWVRCXC9oYzcwdkRra1AyMnVtR2xCbHp2N25HdGNiSkJmYkNOdGk5OGtUWWVid21vXC8wM0FacVRxUm1CeWN6UklPaWJBM3VQUjFKXC9xbnlmMktadkhUdDUrekkxck81SDBpa1V6WjRXdEFsMjVCVm9HUnN2NmU4UG9jUlV4ZFpwNVVWdWZWMTM3Qzg1N01PaEZCbUdMVVNYWkdFSEpzWGZvWDFuaXgyNG1lRVgyVk9lWDNrMHQ1K2NCc1FOdFBjSUQ3YmxZZWgzWFwvRTNTRm5taGlPaXJySStVMm1cLzNhMXRhUStTYmVVclN5RkVPQXpuNE0rZVJVZ1wvSHpZM2Zib3ZWanMzYlZmaTRrOFhDTUpvVFlVa1BzVzhqWUFJelwvZ0JPcU8wd21MS0d2YVpNZzNxQjk2Ym5zQXJRQlJFNVZxZm4ydWxkUE00ZkVsVjk2d2s4Y2M0ZWRPZzNrRFYyQ2t4Z0FOdnlaRW5XRFByNEJScTIzUTExa3Fjd21ldVhjZ1JHV1VIR0NDZ3AzNVBMK0haYzcyNkRIUUNDVE9sMytXV0Zhdmp2S0ZFd3dBWldIdHpNaGFYSmlVY2ttZGdRbFI4UFJNQjQzY3d1QlQ0T3FMSWpPMlVTcURkMUV6YStOXC91T0pLM0c5Y0RKSVwvS0Zub1VuckQ4alZrc0dRZENuZE0wMDVIOVRoeTNHR0JTTlVTbytyRkoxSXM2RnkwS3c5aThwelo1M1g2Y1wvU0JoYnJBeU01RVE0WndZaWloS3Vmc1wveDRUZHp6a3dKazBvYm4rUStaZStWQ1NTN21HNlZFajFvWU51VHZYOVRQSTBLR29LaXZvbmRLUXRWb2pLWjNnVWFnbjFqODlmZ1BYWWUwclwvcGRWMXZXbHM4aWNJVnp4NkthdVBnbnZcL2k0bnVBeU1XUnlUcGR5VEFvUTZZaGVWNTk5QWcrQmRQWDFYZmpcL2lsUFRNOVJ0bCs4dnhmaVwvXC9QdndNNFpvTGhueE9uUEhVRklpWEJxdDNFV21JQ050WWNGeHU0U1RoZFhLV1o4bDNTcHRBVWd6UT09IiwieC5zY3AyIjoiNDMyNDU5OTEzNDM2ODU3NzEyOC4zMSAyNzM5MzMyMDY1NTM0MTYxODc3LjAzIDUwNTU0NjY1MDM1ODM5NTcwOS4yNiAxNDQyMjk1MzcyOTc4Mzk4MjI1LjAxIDQzMjQ1OTkxMzQzNjg1NzcxMjguMDEgMTQ0MjI5NTM3Mjk3ODM5ODIyNS4wMCA0MzI0NTk5MTM0MzY4NTc3MTI4LjIxIDQzMjQ1OTkxMzQzNjg1NzcxMjguMzIgOTA4MTUyNjI0MDg4Nzc0ODcyMi4wNSA1MDU1NDY2NTAzNTgzOTU3MDkuODcgMjY2ODQwMDM3MTUxMjA5NTk2Ny4yMCA0MzI0NTk5MTM0MzY4NTc3MTI4LjA2IDQ5NzQyNDMzODA2MjAzMzE1OTkuMDEgNDk3NDI0MzM4MDYyMDMzMTU5OS4wMiA1MDU1NDY2NTAzNTgzOTU3MDkuYjAgMjM3OTA0NDA5NTM0NzgwNTc1Ny4wMiA1MDU1NDY2NTAzNTgzOTU3MDkuMDYgNTA1NTQ2NjUwMzU4Mzk1NzA5LjI4IDUwNTU0NjY1MDM1ODM5NTcwOS4wNSIsImV4cCI6MTU4MTM3NjU1OSwiaWF0IjoxNTgxMzcyOTU5LCJqdGkiOiJiNGY5MWQ4Yy04MWFmLTQwMjYtYmVkZS1jMmE4OGRmYzdiNGMiLCJ4LmNydHIiOiIyMTY1MTIzMTEzMTc3MzYxODA5In0.XaQfTNNSgoWw4aKVe-TMk6l8v7vnoww13IwyPbVg7wyyk2idJPH7IjS3rAOO61lqNe3FL7T9G0adzmCXK4lOMxPgrq5CfC8P6l-T016BaW2LiS75K_AlYXiaEAvljOBmS3-GtwogxYpbGhlI_tGfluqHsoTy82FFEV7kamuByzGHv9eepzBhGTHI2eQyqxJWCwt7DrL8_Fho4TmZFy2ErJn_C3sZ0DFMqeyVlqVVRXqbOmgpOigp05EQG8iyHYmnars-gKHgMI8PTspWYe1pzqlxHvuxGoAMrpFQe46eRE30xImIiSag1bIciqgtoRDDJIVbdPhMQJo8Av_2K1Mg8A,intuit_userid=9130348127237406";
+	
+		 try {
+
+				URL url = new URL("https://import-tax-aws-e2e.tax.intuit.com/v1/registry/detail");
+				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+				conn.setRequestMethod("GET");
+				conn.setRequestProperty("Accept", "application/json");
+				conn.setRequestProperty("Authorization", authHeader);
+
+				if (conn.getResponseCode() != 200) {
+					throw new RuntimeException("Failed : HTTP error code : "
+							+ conn.getResponseCode());
+				}
+
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+					(conn.getInputStream())));
+
+				String output;
+				System.out.println("Output from Server .... \n");
+				while ((output = br.readLine()) != null) {
+					System.out.println(output);
+				}
+
+				conn.disconnect();
+
+			  } catch (MalformedURLException e) {
+
+				e.printStackTrace();
+
+			  } catch (IOException e) {
+
+				e.printStackTrace();
+
+			  }
+
+			}
+
+	}
+
